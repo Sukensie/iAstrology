@@ -1,6 +1,9 @@
 <script>
-    import { horoscopes } from "./blog/horoscopes";
+    import { horoscopes } from "./horoscopes";
     import placeholder from '$lib/assets/placeholder.jpg';
+
+   
+    let shownNumber = 3;
 </script>
 
 <style>
@@ -22,29 +25,44 @@
         flex: 100%;
         order: 1;
     }
+    .tile a {
+        text-decoration: none;
+        color: black;
+    }
+    .tile a a {
+        text-decoration: underline;
+    }
+    .hidden {
+        display: none;
+    }
 </style>
 
 <h1>iAstrology</h1>
 <h2>Horoskop na dnešní den</h2>
 
 <div class="flex">
-    {#each horoscopes as horoscope}
+    {#each horoscopes.slice(0,shownNumber) as horoscope, i}
         {#if horoscope.slug == 'beran' }
             <div class="tile full-size">
-                <img src="{placeholder}" alt="icon">
-                <h3>{horoscope.title}</h3>
-                <span>{horoscope.period}</span>
-                <p>{@html horoscope.content}</p>
-                <a href="#">Zobrazit více</a>
+                <a href="/{horoscope.slug}">
+                    <img src="{placeholder}" alt="icon">
+                    <h3>{horoscope.title}</h3>
+                    <span>{horoscope.period}</span>
+                    <p>{@html horoscope.content}</p>
+                    <a href="/{horoscope.slug}">Zobrazit více</a>
+                </a>
             </div>
         {:else}
             <div class="tile">
-                <img src="{placeholder}" alt="icon">
-                <h3>{horoscope.title}</h3>
-                <span>{horoscope.period}</span>
-                <a href="#">Zobrazit více</a>
+                <a href="/{horoscope.slug}">
+                    <img src="{placeholder}" alt="icon">
+                    <h3>{horoscope.title}</h3>
+                    <span>{horoscope.period}</span><br>
+                    <a href="/{horoscope.slug}">Zobrazit více</a>
+                </a>
             </div>
         {/if}
     {/each}
-    <a href="#">Zobrazit více</a>
+   
 </div>
+<button class="{shownNumber == horoscopes.length ? 'hidden' : ''}" on:click={() => shownNumber = horoscopes.length}>Zobrazit více horoskopů</button>
