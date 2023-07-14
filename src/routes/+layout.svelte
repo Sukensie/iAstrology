@@ -11,10 +11,18 @@
 		margin-top: 3em;
 	}
 </style>
+<script>
+	import { t, locale, locales } from "$lib/i18n";
+</script>
 
 <nav>
-	<a href="/">home</a>
+	<a href="/">{$t("global.navbar.home")}</a>
 	<a href="/blog">blog</a>
+	<select bind:value={$locale}>
+		{#each locales as l}
+		  <option value={l}>{l}</option>
+		{/each}
+	  </select>
 </nav>
 
 <main>
@@ -22,5 +30,5 @@
 </main>
 
 <footer>
-	tohle je footer
+	{$t("global.footer")}
 </footer>

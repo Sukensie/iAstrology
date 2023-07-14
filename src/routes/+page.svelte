@@ -1,9 +1,17 @@
 <script>
     import { horoscopes } from "./horoscopes";
     import placeholder from '$lib/assets/placeholder.jpg';
-
+	import { t, locale } from "$lib/i18n";
    
     let shownNumber = 3;
+
+    // Create a locale specific timestamp
+    $: time = new Date().toLocaleDateString($locale, {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
 </script>
 
 <style>
@@ -38,7 +46,7 @@
 </style>
 
 <h1>iAstrology</h1>
-<h2>Horoskop na dnešní den</h2>
+<h2>{$t("homepage.todayHoroscopes", {date: time})}</h2>
 
 <div class="flex">
     {#each horoscopes.slice(0,shownNumber) as horoscope, i}
