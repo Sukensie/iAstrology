@@ -1,5 +1,7 @@
 import { error } from '@sveltejs/kit';
 import { prisma } from '$lib/server/prisma.js';
+import { json } from '@sveltejs/kit'
+
 
 export async function load({ params }) {
 	
@@ -10,7 +12,10 @@ export async function load({ params }) {
 			  },
 			select: {
 			   title: true,
-			   text: true
+			   text: true,
+			   photo: true,
+			   seen: true,
+			   date: true
 			}
 		})
 
@@ -20,8 +25,26 @@ export async function load({ params }) {
 
 		return post;
 	}
+	
+	//increment post view count
+	const incrementViews = async () => { try {
+		await prisma.blogPost.update({
+			where: {
+				id: params.slug
+			},
+			data: {
+				seen: post.seen+1
+			}
+		})
+		} catch (error) {
+			return json({ error: error })
+		}
+	}
+
+	let post = await getPost();
+	await incrementViews();
 
 	return {
-		post: getPost(), 
+		post: post, 
 	};
 }

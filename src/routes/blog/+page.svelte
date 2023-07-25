@@ -9,7 +9,21 @@
 	export let data;
 	import placeholder from '$lib/assets/placeholder.jpg';
 
-	$: ({ post } = data)
+	import { locale } from "$lib/i18n";
+
+	//TODO: doesnt reactively change to language change
+	function formatDate(date) {
+		// Create a locale specific timestamp
+		return date.toLocaleDateString($locale, {
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+		});
+	}
+	
+
+	$: ({ post } = data);
+
 </script>
 
 <div>
@@ -17,8 +31,8 @@
 		<article class="flex">
 			<img src={placeholder} alt="placeholder">
 			<div>
-				<a href="/blog/{p.id}">{p.title}</a><br>
-				<small>{p.date} | {p.seen} zobrazení</small>
+				<a class="blog-link" href="/blog/{p.id}">{p.title}</a><br>
+				<small>{formatDate(p.date)} | {p.seen} zobrazení</small>
 				<!--<p>{perex}</p>-->
 			</div>
 			
