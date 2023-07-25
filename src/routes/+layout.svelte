@@ -17,7 +17,7 @@
 
 <nav>
 	<a href="/">{$t("global.navbar.home")}</a>
-	<a href="/blog">blog</a>
+	<a href="/blog">Blog</a>
 	<select bind:value={$locale}>
 		{#each locales as l}
 		  <option value={l}>{l}</option>

@@ -1,12 +1,28 @@
 import { error } from '@sveltejs/kit';
-import { posts } from '../data.js';
+import { prisma } from '$lib/server/prisma.js';
 
-export function load({ params }) {
-	const post = posts.find((post) => post.slug === params.slug);
+export async function load({ params }) {
 
-	if (!post) throw error(404);
+	
+	const getPost = async () => {
+		const post = await prisma.blogPost.findUnique({
+			where: {
+				id: params.slug
+			  },
+			select: {
+			   title: true,
+			   text: true
+			}
+		})
+
+		if(!post){
+			throw error(404, "Article not found");
+		}
+
+		return post;
+	}
 
 	return {
-		post
+		post: getPost(), 
 	};
 }
