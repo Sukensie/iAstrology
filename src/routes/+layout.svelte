@@ -18,7 +18,7 @@
 <script>
 	import { t, locale, locales } from "$lib/i18n";
 	import '$lib/global.css';
-	import { Hamburger } from 'svelte-hamburgers';
+	//import { Hamburger } from 'svelte-hamburgers';
 
 	let open;
 </script>
@@ -35,7 +35,7 @@
 			{/each}
 		</select>
 	{/if}
-	<Hamburger bind:open type="spin"/>
+	<!--<Hamburger bind:open type="spin"/>-->
 </nav>
 
 <main>
