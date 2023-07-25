@@ -1,6 +1,5 @@
 import { prisma } from '$lib/server/prisma.js';
 import { fail, redirect } from '@sveltejs/kit';
-import { page } from '$app/stores'
 import { error } from '@sveltejs/kit';
 
 
