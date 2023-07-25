@@ -3,22 +3,29 @@
 
     $: ({ post } = data);
 
+
 </script>
 
 
-<a href="./postDetail?create"><button>Vytvořit příspěvek</button></a>
+<a href="./postDetail?a=create"><button>Vytvořit příspěvek</button></a>
 
 <h2>Historie příspěvků</h2>
 
 <!-- 
     
-    Make buttons for edit or delete blog posts
+    Do popup dialogs for confirmation
     Think about not loading all posts
     Make login
 
 -->
 <ul>
 	{#each post as p}
-		<li><a href="./postDetail?{p.id}">{p.title}</a></li>
+		<div>
+            <h3>{p.title}</h3>
+            <a href="./postDetail?a={p.id}"><button>Upravit</button></a>
+            <form action="?/deletePost&a={p.id}" method="post">
+                <button>Smazat</button>
+            </form>
+        </div>
 	{/each}
 </ul>

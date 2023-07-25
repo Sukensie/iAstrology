@@ -1,17 +1,35 @@
-<h1>HELLO</h1>
+<script>
+    export let data;
 
-<form action="" method="post">
-    <label for="title">Název</label>
-    <input id="title" name="title"/>
+    $: ({ post } = data)
 
-    <label for="photo">Náhledová fotka</label>
-    <input id="photo" name="photo"/>
+</script>
 
-    <label for="text">Text</label>
-    <textarea id="text" name="text">
+{#if post === undefined}
+    <form action="?/create" method="post">
+        <label for="title">Název</label>
+        <input id="title" name="title"/>
 
-    </textarea>
+        <label for="photo">Náhledová fotka</label>
+        <input id="photo" name="photo"/>
 
-    <button>Vytvořit</button>
+        <label for="text">Text</label>
+        <textarea id="text" name="text">
+        </textarea>
 
-</form>
+        <button>Vytvořit</button>
+    </form>
+{:else}
+    <form action="?/edit&a={post.id}" method="post">
+        <label for="title">Název</label>
+        <input id="title" name="title" value="{post.title}"/>
+
+        <label for="photo">Náhledová fotka</label>
+        <input id="photo" name="photo" value="{post.photo}"/>
+
+        <label for="text">Text</label>
+        <textarea id="text" name="text" value="{post.text}"></textarea>
+
+        <button>Upravit</button>
+    </form>
+{/if}
