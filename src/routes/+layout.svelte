@@ -10,19 +10,32 @@
 	footer {
 		margin-top: 3em;
 	}
+	.hamburger {
+		position: absolute;
+		right: 1em;
+	}
 </style>
 <script>
 	import { t, locale, locales } from "$lib/i18n";
+	import '$lib/global.css';
+	import { Hamburger } from 'svelte-hamburgers';
+
+	let open;
 </script>
 
 <nav>
 	<a href="/">{$t("global.navbar.home")}</a>
-	<a href="/blog">blog</a>
-	<select bind:value={$locale}>
-		{#each locales as l}
-		  <option value={l}>{l}</option>
-		{/each}
-	  </select>
+	
+	
+	{#if open}
+		<a href="/blog">blog</a>
+		<select bind:value={$locale}>
+			{#each locales as l}
+			<option value={l}>{l}</option>
+			{/each}
+		</select>
+	{/if}
+	<Hamburger bind:open type="spin"/>
 </nav>
 
 <main>

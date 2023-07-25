@@ -19,7 +19,6 @@
         border: 1px solid #ccc;
     }
     .flex {
-        display: flex;
         gap: 1em;
         flex-wrap: wrap;
         justify-content: space-between;
