@@ -1,5 +1,3 @@
-//import { posts } from './data.js';
-
 import { prisma } from '$lib/server/prisma.js';
 
 export async function load() {
@@ -7,4 +5,3 @@ export async function load() {
 		post: await prisma.blogPost.findMany({})
 	};
 }
-

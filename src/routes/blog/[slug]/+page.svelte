@@ -1,6 +1,9 @@
 <script>
 	export let data;
+
+	$: ({ post } = data)
+
 </script>
 
-<h1>{data.post.title}</h1>
-<div>{@html data.post.content}</div>
+<h1>{ post.title }</h1>
+<div>{@html post.text }</div>
