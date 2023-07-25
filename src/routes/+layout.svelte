@@ -10,9 +10,17 @@
 	footer {
 		margin-top: 3em;
 	}
+	.hamburger {
+		position: absolute;
+		right: 1em;
+	}
 </style>
 <script>
 	import { t, locale, locales } from "$lib/i18n";
+	import '$lib/global.css';
+	//import { Hamburger } from 'svelte-hamburgers';
+
+	let open;
 </script>
 
 <nav>
