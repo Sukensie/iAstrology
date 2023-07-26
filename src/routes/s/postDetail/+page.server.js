@@ -1,6 +1,7 @@
 import { prisma } from '$lib/server/prisma.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
+import { _checkAuth } from '../+layout.server';
 
 
 /** @type {import('./$types').Actions} */
@@ -80,8 +81,10 @@ export const actions = {
     }
 };
 
-export async function load({ url }) {
-	
+export async function load({ url, parent, cookies }) {
+
+    _checkAuth(cookies);
+
     if(url.searchParams.get('a') == 'create'){
         return{
             post: undefined

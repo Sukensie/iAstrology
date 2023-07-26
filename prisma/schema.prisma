@@ -23,6 +23,6 @@ model Admin {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
   about String
-  username String
+  username String @unique 
   password String
 }

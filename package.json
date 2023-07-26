@@ -23,7 +23,9 @@
 	"type": "module",
 	"dependencies": {
 		"@prisma/client": "^5.0.0",
+		"bcrypt": "^5.1.0",
 		"bson": "^5.4.0",
-		"mongodb": "^5.7.0"
+		"mongodb": "^5.7.0",
+		"uuid": "^9.0.0"
 	}
 }
