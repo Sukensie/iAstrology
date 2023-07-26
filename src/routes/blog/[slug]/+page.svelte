@@ -1,6 +1,7 @@
 <script>
 	export let data;
 	import placeholder from "$lib/assets/placeholder.jpg";
+	import { photoSrcCheck } from "$lib/utils.js";
 	import { locale } from "$lib/i18n";
 
 	$: ({ post } = data)
@@ -13,13 +14,7 @@
 	});
 
 
-	//very simple url regex check
-	function photoSrcCheck(url) {
-		//const regex = /^http.*\.(jpg|jpeg|png|gif|webp)$/i;
-		const regex = /^http/i;
-		return regex.test(url);
 
-	}
 
 </script>
 
