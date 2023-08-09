@@ -1,34 +1,27 @@
 <script>
-    let username = "";
-    let password = "";
-
-
-    const handleSubmit=(e)=>{
-       let loginFields={username,password};
-
-	   console.log(loginFields)
-    }
-
-
+  /** @type {import('./$types').ActionData} */
+  export let form;
 </script>
 
 <h1>iAstrology</h1>
 
-<form on:submit|preventDefault="{handleSubmit}">
+<form action="" method="post">
+	  {#if form?.incorrect}
+      <p class="error">Nesprávné údaje!</p>
+    {/if}
+
     <input
       class="form-field"
-      bind:value="{username}"
       placeholder="Username"
       required
+      name="username"
     />
     <input
       class="form-field"
-      bind:value="{password}"
       type="password"
       placeholder="Password"
       required
+      name="password"
     />
-   <!--<a href="./admin">--><button class="form-field">
-      Login
-    </button>
+    <button class="form-field">Login</button>
   </form>
