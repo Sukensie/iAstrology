@@ -1,6 +1,25 @@
 import { prisma } from '$lib/server/prisma.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { error } from '@sveltejs/kit';
+import { _checkAuth } from '../+layout.server';
+
+function stripTags(tags) {
+    tags = tags.replaceAll(',', ' ')
+
+    tags = tags.trim()
+    var regex = /\s+/g;
+    tags = tags.replaceAll(regex, ' ')
+
+    var tagsArray = tags.split(" "); 
+
+    for(var i = 0; i < tagsArray.length; i++){
+        if(tagsArray[i][0] !== '#'){
+            tagsArray[i] = '#' + tagsArray[i]; 
+        }
+    }
+    
+    return tagsArray
+}
 
 
 /** @type {import('./$types').Actions} */
@@ -8,22 +27,27 @@ export const actions = {
 
     create: async ({ request }) => {
         const form = await request.formData();
-    
         const title = form.get('title');
-        let photo = form.get('photo');
-        const text = form.get("text");
+        const perex = form.get('perex');
+        const tags = form.get('tags');
+        const text = form.get('text');
 
-        if (!title || !text ) {
-            return fail(400, { text, photo, title, missing: true });
+        let photo = form.get('photo');
+        
+
+        if (!title || !text || !perex || !tags ) {
+            return fail(400, { text, photo, title, tags, perex, missing: true });
         }
 
         if(!photo){
             photo = " ";
         }
         
-        if (typeof title != "string" || typeof text != "string" || typeof photo != "string") {
+        if (typeof perex != "string" || typeof title != "string" || typeof text != "string" || typeof photo != "string") {
             return fail(400, { incorrect: true })
         }
+
+        var tagsArray = stripTags(tags);
 
         const seen = 0;
         const date = new Date();
@@ -33,11 +57,13 @@ export const actions = {
                 date,
                 seen,
                 title,
+                perex: perex,
+                tags: tagsArray,
                 photo,
                 text
             }
         })
-
+        
         throw redirect(303, './admin')
     },
 
@@ -45,20 +71,25 @@ export const actions = {
         const form = await request.formData();
     
         const title = form.get('title');
-        let photo = form.get('photo');
+        const perex = form.get("perex");
+        const tags = form.get("tags");
         const text = form.get("text");
 
-        if (!title || !text ) {
-            return fail(400, { text, photo, title, missing: true });
+        let photo = form.get('photo');
+
+        if (!title || !text || !perex || !tags ) {
+            return fail(400, { text, photo, title, tags, perex, missing: true });
         }
 
         if(!photo){
             photo = " ";
         }
         
-        if (typeof title != "string" || typeof text != "string" || typeof photo != "string") {
+        if (typeof perex != "string" || typeof title != "string" || typeof text != "string" || typeof photo != "string") {
             return fail(400, { incorrect: true })
         }
+
+        var tagsArray = stripTags(tags);
 
         const id = url.searchParams.get('a');
         if(id === undefined || id === null){
@@ -71,6 +102,8 @@ export const actions = {
             },
             data: {
                 title,
+                perex: perex,
+                tags: tagsArray,
                 photo,
                 text
             }
@@ -80,8 +113,10 @@ export const actions = {
     }
 };
 
-export async function load({ url }) {
-	
+export async function load({ url, parent, cookies }) {
+
+    _checkAuth(cookies);
+
     if(url.searchParams.get('a') == 'create'){
         return{
             post: undefined
@@ -89,13 +124,19 @@ export async function load({ url }) {
     }
 
     const getPost = async () => {
+        if(!url.searchParams.get('a')){
+            throw error(404, "An error occured");
+        }
+
         const post = await prisma.blogPost.findUnique({
             where: {
                 id: url.searchParams.get('a')
-                },
+            },
             select: {
                 title: true,
                 photo: true,
+                perex: true,
+                tags: true,
                 text: true,
                 id: true
             }
