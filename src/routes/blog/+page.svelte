@@ -8,17 +8,37 @@
 <script>
 	export let data;
 	import placeholder from '$lib/assets/placeholder.jpg';
+	import { photoSrcCheck } from "$lib/utils.js";
 
-	$: ({ post } = data)
+
+	import { locale } from "$lib/i18n";
+
+	//TODO: doesnt reactively change to language change
+	function formatDate(date) {
+		// Create a locale specific timestamp
+		return date.toLocaleDateString($locale, {
+			year: "numeric",
+			month: "long",
+			day: "numeric",
+		});
+	}
+	
+
+	$: ({ post } = data);
+
 </script>
 
 <div>
 	{#each post as p}
 		<article class="flex">
-			<img src={placeholder} alt="placeholder">
+			{#if photoSrcCheck(p.photo)}
+				<img src={p.photo} alt="úvodní fotka">
+			{:else}
+				<img src={placeholder} alt="placeholder">
+			{/if}
 			<div>
-				<a href="/blog/{p.id}">{p.title}</a><br>
-				<small>{p.date} | {p.seen} zobrazení</small>
+				<a class="blog-link" href="/blog/{p.id}">{p.title}</a><br>
+				<small>{formatDate(p.date)} | {p.seen} zobrazení</small>
 				<!--<p>{perex}</p>-->
 			</div>
 			
