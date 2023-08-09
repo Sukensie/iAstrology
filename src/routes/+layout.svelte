@@ -7,6 +7,9 @@
 		padding: 1em;
 		background: #ccc;
 	}
+	nav {
+		margin-bottom: 3.5%;
+	}
 	footer {
 		margin-top: 3em;
 	}
