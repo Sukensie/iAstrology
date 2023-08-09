@@ -40,11 +40,11 @@ export const actions = {
         if(match) {
             const id = uuidv4;
             cookies.set('session_id', id, {
-                path: '/',
+                path: '/s/',
                 httpOnly: true,
-                sameSite: 'strict',
-                secure: true,
-                maxAge: 60 * 60 * 24 * 7 // one week
+                //sameSite: 'strict',
+                secure: false, // TODO: SET TO TRUE 
+                maxAge: 60 * 60 * 24 * 7
             });
 
             throw redirect(303, "./admin")
