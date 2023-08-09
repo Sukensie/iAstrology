@@ -13,8 +13,7 @@
 
 	import { locale } from "$lib/i18n";
 
-	//TODO: doesnt reactively change to language change
-	function formatDate(date) {
+	$: formatDate = (date) => {
 		// Create a locale specific timestamp
 		return date.toLocaleDateString($locale, {
 			year: "numeric",
